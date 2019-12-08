@@ -10,7 +10,5 @@ import { ApiUseTags } from '@nestjs/swagger';
 @Controller('users')
 @ApiUseTags('用户')
 export class UsersController {
-  constructor(@InjectModel(User) private readonly model) {
-
-  }
+  constructor(@InjectModel(User) private readonly model) { }
 }
