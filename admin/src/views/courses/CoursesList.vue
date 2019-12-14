@@ -6,6 +6,16 @@
 import {Component, Vue} from 'vue-property-decorator'
 @Component({
   data = {}
-})
-export default class CoursesList extends Vue {}
+});
+
+
+export default class CoursesList extends Vue {
+  fetch() {
+
+  }
+
+  created() {
+    this.fetch()
+  }
+}
 </script>
