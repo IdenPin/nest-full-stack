@@ -14,21 +14,21 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import About from './views/About.vue'
+import HelloWorld from "./components/HelloWorld.vue";
+import About from "./views/About.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     HelloWorld,
     About
   }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
