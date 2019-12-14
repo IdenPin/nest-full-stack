@@ -3,17 +3,14 @@
 </template>
 
 <script>
-import {Component, Vue} from 'vue-property-decorator'
-@Component({
-  data = {}
-});
-
-
+import { Component, Vue } from 'vue-property-decorator'
+@Component({})
 export default class CoursesList extends Vue {
-  fetch() {
-
+  data = {}
+  async fetch() {
+    const res = await this.$http.get('courses')
+    this.data = res.data
   }
-
   created() {
     this.fetch()
   }
