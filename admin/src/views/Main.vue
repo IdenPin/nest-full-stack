@@ -9,7 +9,7 @@
       >
         <el-submenu
           v-for="(item, index) in menu.items"
-          :index="String(index + 1)"
+          :index="`menu-item-${index}`"
           :key="`menu-item-${index}`"
         >
           <template slot="title">{{ item.title }}</template>
