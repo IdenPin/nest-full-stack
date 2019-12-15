@@ -23,7 +23,9 @@
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header>全站开发 - 后台管理界面</el-header>
+      <el-header>
+        <h3>全站开发 - 后台管理界面</h3>
+      </el-header>
       <el-main height>
         <router-view></router-view>
       </el-main>
