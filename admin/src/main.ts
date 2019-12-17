@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
+import "./plugins/avue.js";
 import axios from 'axios'
 import EleForm from 'vue-ele-form'
 Vue.config.productionTip = false;
