@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Main from "../views/Main.vue";
 import CoursesList from "../views/courses/CoursesList.vue";
 import CoursesEdit from "../views/courses/CoursesEdit.vue";
+import EpisodesList from "../views/episodes/EpisodesList.vue";
 
 Vue.use(VueRouter);
 
@@ -17,11 +18,7 @@ const routes: RouteConfig[] = [
         path: '/',
         component: Home
       },
-      {
-        name: 'courses-list',
-        path: '/courses/list',
-        component: CoursesList
-      },
+      // 课程管理
       {
         name: 'courses-list',
         path: '/courses/list',
@@ -37,6 +34,12 @@ const routes: RouteConfig[] = [
         name: 'courses-create',
         path: '/courses/create',
         component: CoursesEdit
+      },
+      // 课时管理
+      {
+        name: 'episodes-list',
+        path: '/episodes/list',
+        component: EpisodesList
       },
     ]
   }
