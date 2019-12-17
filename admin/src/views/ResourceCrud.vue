@@ -1,69 +1,63 @@
 <template>
   <div>
-    <h3>课程列表</h3>
-    <p>
-      <el-button
-        type="success"
-        @click="$router.push('/courses/create')"
-        size="small"
-        >创建课程</el-button
-      >
-    </p>
-    <el-table :data="data.data" border stripe>
-      <el-table-column
-        v-for="(field, name) in fields"
-        :prop="name"
-        :key="name"
-        :label="field.label"
-        :width="field.width"
-      ></el-table-column>
-      <el-table-column label="操作" :width="200">
-        <template v-slot="{ row }">
-          <el-button
-            type="success"
-            size="small"
-            @click="$router.push(`/courses/edit/${row._id}`)"
-            >编辑</el-button
-          >
-          <el-button type="danger" size="small" @click="remove(row)"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
+    <avue-crud
+      v-if="option.column"
+      :data="data.data"
+      :option="option"
+      @row-save="create"
+      @row-update="update"
+      @row-del="remove"
+    ></avue-crud>
   </div>
 </template>
 
-<script>
-import { Component, Vue } from "vue-property-decorator";
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
-export default class CoursesList extends Vue {
-  data = {};
-  fields = {
-    _id: { label: "ID" },
-    name: {
-      label: "课程名称"
-    },
-    cover: {
-      label: "课程封面图"
-    }
-  };
-  async fetch() {
-    const res = await this.$http.get("courses");
-    this.data = res.data;
+export default class Resource extends Vue {
+  @Prop(String) resource: string
+  data = {}
+  option = {}
+
+  async fetchOption() {
+    const res = await this.$http.get(`${this.resource}/option`)
+    this.option = res.data
   }
+  async fetch() {
+    const res = await this.$http.get(`${this.resource}`)
+    this.data = res.data
+  }
+
+  async create(row, done, loading) {
+    await this.$http.post(`${this.resource}`, row)
+    this.$message.success('创建成功')
+    this.fetch()
+    done()
+  }
+
+  async update(row, index, done, loading) {
+    // 解决 mongoose 数据库插入 $index 报错问题
+    const data = JSON.parse(JSON.stringify(row))
+    delete data.$index
+    await this.$http.put(`${this.resource}/${row._id}`, data)
+    this.$message.success('更新成功')
+    this.fetch()
+    done()
+  }
+
   async remove(row) {
     try {
-      await this.$confirm("是否确认删除");
+      await this.$confirm('是否确认删除')
     } catch (e) {
-      return;
+      return
     }
-    await this.$http.delete(`courses/${row._id}`);
-    this.$message.success("删除成功");
-    this.fetch();
+    await this.$http.delete(`${this.resource}/${row._id}`)
+    this.$message.success('删除成功')
+    this.fetch()
   }
   created() {
-    this.fetch();
+    this.fetchOption()
+    this.fetch()
   }
 }
 </script>
