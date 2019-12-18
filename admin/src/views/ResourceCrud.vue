@@ -4,28 +4,69 @@
       v-if="option.column"
       :data="data.data"
       :option="option"
+      :page="page"
       @row-save="create"
       @row-update="update"
       @row-del="remove"
+      @on-load="chagePage"
+      @sort-change="changeSort"
     ></avue-crud>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import dayjs from 'dayjs'
 @Component({})
 export default class Resource extends Vue {
   @Prop(String) resource: string
   data = {}
   option = {}
-
+  page = {
+    pageSizes: [2, 5, 10, 20, 30],
+    currentPage: 1,
+    total: 0,
+    pageSize: 2,
+    sort: {}
+  }
   async fetchOption() {
     const res = await this.$http.get(`${this.resource}/option`)
     this.option = res.data
   }
   async fetch() {
-    const res = await this.$http.get(`${this.resource}`)
+    let query = {
+      limit: this.page.pageSize
+    }
+    const res = await this.$http.get(`${this.resource}`, {
+      params: {
+        query: {
+          limit: this.page.pageSize,
+          page: this.page.currentPage,
+          sort: this.page.sort
+        }
+      }
+    })
     this.data = res.data
+    this.page.total = res.data.total
+  }
+
+  chagePage(data) {
+    this.page.currentPage = data.currentPage
+    this.page.pageSize = data.pageSize
+    this.fetch()
+  }
+
+  changeSort({ prop, order }) {
+    if (!order) {
+      this.page.sort = {
+        [prop]: null
+      }
+    } else {
+      this.page.sort = {
+        [prop]: order === 'ascending' ? 1 : -1
+      }
+    }
+    this.fetch()
   }
 
   async create(row, done, loading) {
