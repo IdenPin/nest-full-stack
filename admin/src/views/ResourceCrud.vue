@@ -21,7 +21,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class Resource extends Vue {
   @Prop(String) resource: string
   data = {}
-  option = {}
+  option = {
+    column: []
+  }
   page = {
     pageSizes: [2, 5, 10, 20, 30],
     currentPage: 1,
@@ -72,7 +74,12 @@ export default class Resource extends Vue {
   }
 
   changeSearch(params, done) {
-    params.name = { $regex: params.name }
+    for (let k in params) {
+      const field = this.option.column.find(v => v.prop === k)
+      if (field.regex) {
+        params[k] = { $regex: params[k] }
+      }
+    }
     this.page.where = params
     this.fetch()
     done()
