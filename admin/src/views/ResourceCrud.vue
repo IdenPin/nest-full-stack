@@ -10,13 +10,13 @@
       @row-del="remove"
       @on-load="chagePage"
       @sort-change="changeSort"
+      @search-change="changeSearch"
     ></avue-crud>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import dayjs from 'dayjs'
 @Component({})
 export default class Resource extends Vue {
   @Prop(String) resource: string
@@ -27,7 +27,8 @@ export default class Resource extends Vue {
     currentPage: 1,
     total: 0,
     pageSize: 2,
-    sort: {}
+    sort: {},
+    where: ''
   }
   async fetchOption() {
     const res = await this.$http.get(`${this.resource}/option`)
@@ -42,7 +43,8 @@ export default class Resource extends Vue {
         query: {
           limit: this.page.pageSize,
           page: this.page.currentPage,
-          sort: this.page.sort
+          sort: this.page.sort,
+          where: this.page.where
         }
       }
     })
@@ -67,6 +69,12 @@ export default class Resource extends Vue {
       }
     }
     this.fetch()
+  }
+
+  changeSearch(params, done) {
+    this.page.where = params
+    this.fetch()
+    done()
   }
 
   async create(row, done, loading) {
@@ -98,7 +106,6 @@ export default class Resource extends Vue {
   }
   created() {
     this.fetchOption()
-    this.fetch()
   }
 }
 </script>
