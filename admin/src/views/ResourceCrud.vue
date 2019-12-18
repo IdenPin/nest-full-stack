@@ -72,6 +72,7 @@ export default class Resource extends Vue {
   }
 
   changeSearch(params, done) {
+    params.name = { $regex: params.name }
     this.page.where = params
     this.fetch()
     done()
