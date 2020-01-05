@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({})
 export default class Resource extends Vue {

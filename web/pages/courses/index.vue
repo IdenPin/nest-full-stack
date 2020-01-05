@@ -1,0 +1,5 @@
+<template>
+  <div>
+    <div>课程列表</div>
+  </div>
+</template>
