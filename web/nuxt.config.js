@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+// https://github.com/nuxt-community/axios-module/issues/138
 import dotenv from 'dotenv'
 dotenv.config()
 
